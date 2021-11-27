@@ -9,7 +9,7 @@ const GetGitsLayut = () => {
   const [input, setInput] = useState("");
   const [gitsList, setGitsList] = useState([]);
   return (
-    <Box className="main"> 
+    <Box className="main">
       <Box className="form">
         <TextField
           label="Name"
@@ -21,7 +21,6 @@ const GetGitsLayut = () => {
           onClick={async () => {
             const result = await api.getGits(input);
             setGitsList(result);
-            console.log(result);
           }}
         >
           Get Gits
