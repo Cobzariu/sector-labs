@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { Button, Input, TextField, Typography } from "@mui/material";
+
 import api from "../../../api/api";
 import GitList from "../../GitsList/GitsList";
 import "./GetGitsLayout.css";
+import GitsForm from "../../GitsForm/GitsForm";
 
 const GetGitsLayut = () => {
   const [input, setInput] = useState("");
   const [gitsList, setGitsList] = useState([]);
   return (
     <Box className="main">
-      <Box className="form">
-        <TextField
-          label="Name"
-          onChange={(elem) => {
-            setInput(elem.target.value);
-          }}
-        />
-        <Button
-          onClick={async () => {
-            const result = await api.getGits(input);
-            setGitsList(result);
-          }}
-        >
-          Get Gits
-        </Button>
-      </Box>
+      <GitsForm
+        input={input}
+        onChageText={(elem) => {
+          setInput(elem.target.value);
+        }}
+        onButtonClick={async (elem) => {
+          const result = await api.getGits(input);
+          setGitsList(result);
+        }}
+      />
+
       <GitList data={gitsList} />
     </Box>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Container, Link, Typography } from "@mui/material";
+import { Avatar, Link, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import "./GitsListItem.css";
 import api from "../../api/api";
@@ -8,7 +8,15 @@ const GitsListItem = ({ gits }) => {
   const [forks, setForks] = useState([]);
   async function getForks() {
     const response = await api.getForks(gits.forks_url);
-    setForks(response);
+    const filteredResponse = response
+      .sort(function (a, b) {
+        var d1 = new Date(a.created_at);
+        var d2 = new Date(b.created_at);
+        if (d1 < d2) return 1;
+        else return -1;
+      })
+      .slice(0, 3);
+    setForks(filteredResponse);
   }
 
   useEffect(() => {
@@ -17,9 +25,11 @@ const GitsListItem = ({ gits }) => {
 
   const renderFiles = (files) => {
     const filesArray = Object.keys(files).map((file) => files[file]);
-    return filesArray.map((file) => (
-      <Box className="file">
-        <Link href={file.raw_url}>{file.filename} </Link>
+    return filesArray.map((file, index) => (
+      <Box className="file" key={index}>
+        <Link href={file.raw_url} target="_blank">
+          {file.filename}
+        </Link>
         {file.language !== null ? (
           <span className="language">{file.language}</span>
         ) : null}
@@ -27,10 +37,10 @@ const GitsListItem = ({ gits }) => {
     ));
   };
   const renderForks = () => {
-    return forks.map((fork) => (
-      <Box className="fork">
+    return forks.map((fork, index) => (
+      <Box className="fork" key={index}>
         <Avatar src={fork.owner.avatar_url} />
-        {fork.owner.login}
+        <Box className="forkOwnerBox">{fork.owner.login}</Box>
       </Box>
     ));
   };
