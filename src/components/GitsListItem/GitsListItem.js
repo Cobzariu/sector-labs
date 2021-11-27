@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Link, Typography } from "@mui/material";
+import { Avatar, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import "./GitsListItem.css";
 import api from "../../api/api";
@@ -48,7 +48,7 @@ const GitsListItem = ({ gits }) => {
     <Box className="item">
       <Box className="filesBox"> {renderFiles(gits.files)}</Box>
       {forks.length > 0 ? (
-        <Box className="forkBox">Forkey by {renderForks()}</Box>
+        <Box className="forkBox">Forked by {renderForks()}</Box>
       ) : null}
     </Box>
   );
